@@ -9,6 +9,9 @@ type AppState = {
 
   pageNumber: number;
   setPageNumber: (pageNumber: number) => void;
+
+  offlineMode: boolean;
+  setOfflineMode: (offlineMode: boolean) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -20,4 +23,7 @@ export const useAppStore = create<AppState>((set) => ({
 
   pageNumber: 1,
   setPageNumber: (pageNumber) => set({ pageNumber }),
+
+  offlineMode: false,
+  setOfflineMode: (offlineMode) => set({ offlineMode }),
 }));

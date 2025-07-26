@@ -1,4 +1,4 @@
-import { saveUsers } from './db';
+import { UserCache } from './db';
 import { User } from './definitions';
 
 const API_URL = 'https://randomuser.me/api/';
@@ -26,5 +26,5 @@ export async function callAPI(params: { page: number; results: number }) {
 
 export async function fetchAndSaveUsers(page: number, results: number) {
   const data = await callAPI({ page, results });
-  await saveUsers(data.results);
+  await UserCache.getInstance().saveUsers(data.results);
 }

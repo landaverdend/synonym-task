@@ -1,3 +1,5 @@
+'use client';
+
 import { User } from '@/lib/definitions';
 import { useAppStore } from '@/state/appStore';
 import { Spinner } from './Spinner';

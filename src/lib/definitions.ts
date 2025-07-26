@@ -56,3 +56,7 @@ export interface User {
   };
   nat: string;
 }
+
+export type CachedUser = User & {
+  lastAccessed: Date;
+};
