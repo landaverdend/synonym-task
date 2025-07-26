@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Homework Assignment
+Hello, to run this project, use the following commands:
 
-First, run the development server:
-
-```bash
+```
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To simulate offline mode, there is a toggle button at the top, alongside a 'clear cache' button that will clear out the local cache.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Known Issues
+- The loading CSS widget is a little buggy and causes some shifts in the layout of the page.
+- The application won't manually set you to offline mode when the API call fails, (the toggle however works)
+- The user card component is not mobile friendly
+- No favoriting
 
-## Learn More
+#What I would improve with more time:
 
-To learn more about Next.js, take a look at the following resources:
+Given more time, I would clean up the CSS that isn't mobile friendly, as well as make things look a little prettier. I figured these were less important than getting a basic prototype working. Generally I make things pretty closer to the end of the project and focus on the behaviors at first.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+I was also about to start the favoriting feature- I had some issues working with the Dexie API and typescript at start up that delayed me a little bit. The favorite's feature was a little vague, so I likely would ask for clarification. But I would have implemented it by adding a field to the `CachedUser` interface that I created for adding extra data to the API response objects (something like an isFavorited field). I would then add support for it and included some styling/indications on the UI side for favoriting/unfavoriting.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+I would also have made the offline detection more robust, as of now, it's just a toggle. But really we would want to set users to offline mode after implementing some API-call retry strategy. 
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+In order, I would have done the following:
+- added user favoriting
+- add a robust retry strategy for api call failures
+- clean up small CSS errors and make components more modular. (There are some duplicated buttons in `ListControls.tsx` that should be reused.)
