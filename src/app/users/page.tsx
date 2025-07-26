@@ -1,12 +1,16 @@
 'use client';
 
 import { callAPI } from '@/lib/actions';
-import { db } from '@/lib/db';
+import { db, saveUsers } from '@/lib/db';
+import { User } from '@/lib/definitions';
 import { useAppStore } from '@/state/appStore';
-import { useEffect } from 'react';
+import UserTable from '@/ui/UserList';
+import { useEffect, useState } from 'react';
 
 export default function UsersPage() {
-  const { isLoading, setIsLoading } = useAppStore();
+  const { isLoading, setIsLoading, globalError } = useAppStore();
+
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -16,11 +20,8 @@ export default function UsersPage() {
 
       try {
         const data = await callAPI({ page: 1, results: 10 });
-        console.log(data);
-        db.users.bulkPut(data.results);
-
-        const users = await db.users.toArray();
-        console.log('the users saved: ', users);
+        saveUsers(data.results);
+        setUsers(data.results);
       } catch (error) {
       } finally {
         setIsLoading(false);
@@ -32,8 +33,7 @@ export default function UsersPage() {
 
   return (
     <div className="font-sans flex flex-col items-center justify-center h-screen">
-      {isLoading && <div>Loading...</div>}
-      {!isLoading && <span>Not loading...</span>}
+      <UserTable users={users} />
     </div>
   );
 }
