@@ -20,22 +20,14 @@ export default function UserTable({ users }: UserTableProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full items-center overflow-y-auto">
-      <div className="flex flex-row gap-4 items-center justify-center">
-        <button
-          className="border border-gray-300 rounded-md p-2 hover:cursor-pointer"
-          onClick={() => handlePageChange(pageNumber - 1)}>
-          Previous
-        </button>
-        <span>Current Page: {pageNumber}</span>
-        <button
-          className="border border-gray-300 rounded-md p-2 hover:cursor-pointer"
-          onClick={() => handlePageChange(pageNumber + 1)}>
-          Next
-        </button>
-      </div>
-
-      <div className="flex flex-col gap-4 w-3/6 rounded-md">
-        {isLoading ? <Spinner /> : users.map((user) => <UserCard key={user.login.uuid} user={user} />)}
+      <div className="flex flex-col gap-4 w-3/6 rounded-md min-h-[400px]">
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <Spinner />
+          </div>
+        ) : (
+          users.map((user) => <UserCard key={user.login.uuid} user={user} />)
+        )}
       </div>
     </div>
   );

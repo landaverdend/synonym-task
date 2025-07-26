@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { useUserPagination } from '../hooks/useUserPagination';
 import { UserCache } from '@/lib/db';
 import Button from '@/ui/Button';
+import ListControls from '@/ui/ListControls';
 
 export default function UsersPage() {
   const { globalError, offlineMode, setOfflineMode } = useAppStore();
@@ -22,6 +23,8 @@ export default function UsersPage() {
         <h1 className="font-bold text-4xl">Random User Fetcher V1</h1>
         <Button onClick={() => UserCache.getInstance().clearCache()}>Clear Cache</Button>
         <Button onClick={() => setOfflineMode(!offlineMode)}>Set Offline Mode</Button>
+
+        <ListControls />
 
         {offlineMode && <p className="text-red-500">Offline Mode</p>}
         {globalError && <ErrorWidget />}
