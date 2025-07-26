@@ -1,11 +1,12 @@
 import { User } from '@/lib/definitions';
 import { useAppStore } from '@/state/appStore';
+import { Spinner } from './Spinner';
 
 type UserTableProps = {
   users: User[];
 };
 export default function UserTable({ users }: UserTableProps) {
-  const { pageNumber, setPageNumber } = useAppStore();
+  const { pageNumber, setPageNumber, isLoading } = useAppStore();
 
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber < 1) {
@@ -17,7 +18,7 @@ export default function UserTable({ users }: UserTableProps) {
 
   return (
     <div className="flex flex-col gap-4 w-full items-center overflow-y-auto">
-      <div className="flex flex-row gap-4">
+      <div className="flex flex-row gap-4 items-center justify-center">
         <button
           className="border border-gray-300 rounded-md p-2 hover:cursor-pointer"
           onClick={() => handlePageChange(pageNumber - 1)}>
@@ -32,9 +33,7 @@ export default function UserTable({ users }: UserTableProps) {
       </div>
 
       <div className="flex flex-col gap-4 w-3/6 rounded-md">
-        {users.map((user) => (
-          <UserCard key={user.login.uuid} user={user} />
-        ))}
+        {isLoading ? <Spinner /> : users.map((user) => <UserCard key={user.login.uuid} user={user} />)}
       </div>
     </div>
   );
