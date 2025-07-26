@@ -9,6 +9,7 @@ npm run dev
 
 To simulate offline mode, there is a toggle button at the top, alongside a 'clear cache' button that will clear out the local cache.
 
+The application should run at: http://localhost:3000/users 
 
 # Known Issues
 - The loading CSS widget is a little buggy and causes some shifts in the layout of the page.
