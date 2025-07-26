@@ -16,7 +16,7 @@ To simulate offline mode, there is a toggle button at the top, alongside a 'clea
 - The user card component is not mobile friendly
 - No favoriting
 
-#What I would improve with more time:
+# What I would improve with more time:
 
 Given more time, I would clean up the CSS that isn't mobile friendly, as well as make things look a little prettier. I figured these were less important than getting a basic prototype working. Generally I make things pretty closer to the end of the project and focus on the behaviors at first.
 
