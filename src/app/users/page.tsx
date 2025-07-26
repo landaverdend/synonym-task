@@ -26,7 +26,7 @@ export default function UsersPage() {
 
         <ListControls />
 
-        {offlineMode && <p className="text-red-500">Offline Mode</p>}
+        <div className="h-6">{offlineMode && <p className="text-red-500">Offline Mode. </p>}</div>
         {globalError && <ErrorWidget />}
       </div>
       <UserTable users={currentPageUsers} />

@@ -68,4 +68,8 @@ export class UserCache {
   public async clearCache() {
     await this.db.users.clear();
   }
+
+  public getCacheSize() {
+    return this.db.users.count();
+  }
 }

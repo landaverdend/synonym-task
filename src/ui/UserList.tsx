@@ -8,21 +8,13 @@ type UserTableProps = {
   users: User[];
 };
 export default function UserTable({ users }: UserTableProps) {
-  const { pageNumber, setPageNumber, isLoading } = useAppStore();
-
-  const handlePageChange = (pageNumber: number) => {
-    if (pageNumber < 1) {
-      return;
-    }
-
-    setPageNumber(pageNumber);
-  };
+  const { isLoading } = useAppStore();
 
   return (
     <div className="flex flex-col gap-4 w-full items-center overflow-y-auto">
-      <div className="flex flex-col gap-4 w-3/6 rounded-md min-h-[400px]">
+      <div className="flex flex-col gap-4 w-3/6 rounded-md">
         {isLoading ? (
-          <div className="flex items-center justify-center h-full">
+          <div className="flex items-center justify-center h-full min-h-[400px]">
             <Spinner />
           </div>
         ) : (
@@ -30,16 +22,6 @@ export default function UserTable({ users }: UserTableProps) {
         )}
       </div>
     </div>
-  );
-}
-
-function PageButton({ children }: { children: React.ReactNode }) {
-  const { pageNumber, setPageNumber } = useAppStore();
-
-  return (
-    <button className="border border-gray-300 rounded-md p-2" onClick={() => setPageNumber(pageNumber)}>
-      {children}
-    </button>
   );
 }
 

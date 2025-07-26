@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 const cache = UserCache.getInstance();
 
 export const useUserPagination = () => {
-
   const { pageNumber, setIsLoading, setGlobalError, offlineMode } = useAppStore();
   const [currentPageUsers, setCurrentPageUsers] = useState<User[]>([]);
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppStore } from '@/state/appStore';
 
 export default function ListControls() {
