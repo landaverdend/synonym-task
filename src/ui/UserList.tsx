@@ -8,25 +8,35 @@ import { UserCache } from '@/lib/db';
 
 type UserTableProps = {};
 export default function UserTable({}: UserTableProps) {
-  const { isLoading, users } = useAppStore();
+  const { users, isLoading } = useAppStore();
 
   return (
-    <div className="flex flex-col gap-4 w-full items-center overflow-y-auto">
-      <div className="flex flex-col gap-4 w-3/6 rounded-md">
-        {isLoading ? (
-          <div className="flex items-center justify-center h-full min-h-[400px]">
-            <Spinner />
-          </div>
-        ) : (
-          users.map((user) => <UserCard key={user.login.uuid} user={user} />)
+    <table className="table-auto border-separate border-spacing-y-10 sm:w-4/5">
+      <thead className="sticky top-0 bg-blue-500 text-black z-100">
+        <tr>
+          <th className="text-left p-2">Image</th>
+          <th className="text-left p-2">Name</th>
+          <th className="text-left p-2">Country</th>
+          <th className="text-left p-2">Favorite</th>
+        </tr>
+      </thead>
+
+      <tbody className="relative">
+        {isLoading && (
+          <tr>
+            <td colSpan={5} className="text-center">
+              <Spinner />
+            </td>
+          </tr>
         )}
-      </div>
-    </div>
+        {!isLoading && users.map((user) => <UserRecord key={user.login.uuid} user={user} />)}
+      </tbody>
+    </table>
   );
 }
 
 const cache = UserCache.getInstance();
-function UserCard({ user }: { user: User }) {
+function UserRecord({ user }: { user: User }) {
   const isFavorited = user.isFavorited ?? false;
   const { users, setUsers } = useAppStore();
 
@@ -42,17 +52,19 @@ function UserCard({ user }: { user: User }) {
   };
 
   return (
-    <div className="flex flex-row  gap-10 border border-gray-300 rounded-md p-4">
-      <img src={user.picture.thumbnail} alt={user.name.first} />
-      <span>{user.name.first}</span>
-      <span>{user.name.last}</span>
-      <span>{user.email}</span>
-      <span>{user.location.country}</span>
-      <span>{user.nat}</span>
-
-      <Button onClick={() => toggleFavorite(user)} className={`${isFavorited ? 'bg-red-500' : 'bg-green-500'}`}>
-        {isFavorited ? 'Unfavorite' : 'Favorite'}
-      </Button>
-    </div>
+    <tr className="z-100">
+      <td className="text-center sm:text-sm md:text-base">
+        <img src={user.picture.thumbnail} alt={user.name.first} className="w-10 h-10 rounded-full mx-auto" />
+      </td>
+      <td className="sm:text-sm md:text-base">
+        {user.name.first} {user.name.last}
+      </td>
+      <td className="sm:text-sm md:text-base">{user.location.country}</td>
+      <td className="sm:text-sm md:text-base">
+        <Button onClick={() => toggleFavorite(user)} className={`${isFavorited ? 'bg-red-500' : 'bg-green-500'}`}>
+          {isFavorited ? 'Unfavorite' : 'Favorite'}
+        </Button>
+      </td>
+    </tr>
   );
 }

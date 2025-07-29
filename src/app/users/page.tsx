@@ -30,9 +30,9 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="font-sans flex flex-col items-center justify-center h-screen gap-10">
-      <div className="flex flex-col gap-4 w-full items-center mt-30">
-        <h1 className="font-bold text-4xl">Random User Fetcher V1</h1>
+    <div className="font-sans flex flex-col items-center justify-center">
+      <div className="flex flex-col gap-4 w-full items-center justify-center mt-30">
+        <h1 className="font-bold text-4xl text-center">Random User Fetcher V2</h1>
 
         <Button onClick={handleClearCache}>Clear Cache</Button>
         <Button onClick={handleSetOfflineMode}>Set Offline Mode</Button>
