@@ -3,7 +3,7 @@ import { User } from './definitions';
 
 const API_URL = 'https://randomuser.me/api/';
 
-type APIResponse = {
+export type APIResponse = {
   info: {
     seed: string;
     results: number;

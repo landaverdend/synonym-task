@@ -6,7 +6,7 @@ export default function ListControls() {
   const { pageNumber, setPageNumber } = useAppStore();
 
   const handlePageChange = (pageNumber: number) => {
-    if (pageNumber < 1) {
+    if (pageNumber < 0) {
       return;
     }
 
@@ -20,7 +20,7 @@ export default function ListControls() {
         onClick={() => handlePageChange(pageNumber - 1)}>
         Previous
       </button>
-      <span>Current Page: {pageNumber}</span>
+      <span>Current Page: {pageNumber + 1}</span>
       <button
         className="border border-gray-300 rounded-md p-2 hover:cursor-pointer"
         onClick={() => handlePageChange(pageNumber + 1)}>

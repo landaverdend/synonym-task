@@ -1,3 +1,4 @@
+import { User } from '@/lib/definitions';
 import { create } from 'zustand';
 
 type AppState = {
@@ -12,6 +13,9 @@ type AppState = {
 
   offlineMode: boolean;
   setOfflineMode: (offlineMode: boolean) => void;
+
+  users: User[];
+  setUsers: (users: User[]) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -21,9 +25,12 @@ export const useAppStore = create<AppState>((set) => ({
   globalError: null,
   setGlobalError: (globalError) => set({ globalError }),
 
-  pageNumber: 1,
+  pageNumber: 0,
   setPageNumber: (pageNumber) => set({ pageNumber }),
 
   offlineMode: false,
   setOfflineMode: (offlineMode) => set({ offlineMode }),
+
+  users: [],
+  setUsers: (users) => set({ users }),
 }));

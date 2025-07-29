@@ -1,6 +1,9 @@
 // Rough outline
 
 export interface User {
+  fetchTime?: Date; // not used in the API
+  isFavorited?: boolean;
+
   gender: string;
   name: {
     title: string;
@@ -56,7 +59,3 @@ export interface User {
   };
   nat: string;
 }
-
-export type CachedUser = User & {
-  lastAccessed: Date;
-};

@@ -1,25 +1,24 @@
 import Dexie, { type EntityTable } from 'dexie';
-import { CachedUser, User } from './definitions';
+import { User } from './definitions';
 
 const MAX_CACHED_USERS = 1000;
 
 type UserCacheDB = Dexie & {
-  users: EntityTable<CachedUser, 'login'>;
+  users: EntityTable<User, 'login'>;
 };
 // Singleton wrapper for user cache/db actions
 export class UserCache {
   private db: UserCacheDB;
-  private maxCachedUsers: number = MAX_CACHED_USERS;
 
   private static _instance: UserCache;
 
   private constructor() {
     this.db = new Dexie('UserDatabase') as Dexie & {
-      users: EntityTable<CachedUser, 'login'>;
+      users: EntityTable<User, 'login'>;
     };
 
     this.db.version(1).stores({
-      users: 'login.uuid, email, name.first, name.last, location.country, nat, lastAccessed',
+      users: 'login.uuid, email, name.first, name.last, location.country, nat, fetchTime, isFavorited',
     });
   }
 
@@ -41,7 +40,8 @@ export class UserCache {
 
       const cachedUsers = users.map((user) => ({
         ...user,
-        lastAccessed: new Date(),
+        fetchTime: new Date(),
+        isFavorited: false,
       }));
 
       await this.db.users.bulkPut(cachedUsers);
@@ -52,17 +52,31 @@ export class UserCache {
   }
 
   public async getUsers(pageNumber: number, pageSize: number) {
-    const startIndex = (pageNumber - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
+    const startIndex = pageNumber * pageSize;
 
-    const users = await this.db.users.orderBy('lastAccessed').offset(startIndex).limit(pageSize).toArray();
+    const users = await this.db.users.orderBy('fetchTime').offset(startIndex).limit(pageSize).toArray();
 
     return users;
   }
 
+  public async getFavoritedUsers() {
+    const users = await this.db.users.where('isFavorited').equals('true').toArray();
+
+    return users;
+  }
+
+  public async toggleFavorited(uuid: string) {
+    await this.db.users
+      .where('login.uuid')
+      .equals(uuid)
+      .modify((user) => {
+        user.isFavorited = !user.isFavorited;
+      });
+  }
+
   private async evictOldestUsers(numToEvict: number) {
     console.log(`Evicting ${numToEvict} oldest users`);
-    await this.db.users.orderBy('lastAccessed').limit(numToEvict).delete();
+    await this.db.users.orderBy('fetchTime').limit(numToEvict).delete();
   }
 
   public async clearCache() {

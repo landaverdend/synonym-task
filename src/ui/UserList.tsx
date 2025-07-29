@@ -3,12 +3,12 @@
 import { User } from '@/lib/definitions';
 import { useAppStore } from '@/state/appStore';
 import { Spinner } from './Spinner';
+import Button from './Button';
+import { UserCache } from '@/lib/db';
 
-type UserTableProps = {
-  users: User[];
-};
-export default function UserTable({ users }: UserTableProps) {
-  const { isLoading } = useAppStore();
+type UserTableProps = {};
+export default function UserTable({}: UserTableProps) {
+  const { isLoading, users } = useAppStore();
 
   return (
     <div className="flex flex-col gap-4 w-full items-center overflow-y-auto">
@@ -25,7 +25,22 @@ export default function UserTable({ users }: UserTableProps) {
   );
 }
 
+const cache = UserCache.getInstance();
 function UserCard({ user }: { user: User }) {
+  const isFavorited = user.isFavorited ?? false;
+  const { users, setUsers } = useAppStore();
+
+  const toggleFavorite = (user: User) => {
+    try {
+      cache.toggleFavorited(user.login.uuid);
+    } catch (error) {
+      alert('Failed to toggle favorite');
+    }
+
+    // update the reference in zustand store.
+    setUsers(users.map((u) => (u.login.uuid === user.login.uuid ? { ...u, isFavorited: !isFavorited } : u)));
+  };
+
   return (
     <div className="flex flex-row  gap-10 border border-gray-300 rounded-md p-4">
       <img src={user.picture.thumbnail} alt={user.name.first} />
@@ -34,6 +49,10 @@ function UserCard({ user }: { user: User }) {
       <span>{user.email}</span>
       <span>{user.location.country}</span>
       <span>{user.nat}</span>
+
+      <Button onClick={() => toggleFavorite(user)} className={`${isFavorited ? 'bg-red-500' : 'bg-green-500'}`}>
+        {isFavorited ? 'Unfavorite' : 'Favorite'}
+      </Button>
     </div>
   );
 }

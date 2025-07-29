@@ -1,9 +1,13 @@
+'use client';
 
-'use client'
-
-export default function Button({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+type ButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  className?: string;
+};
+export default function Button({ children, onClick, className }: ButtonProps) {
   return (
-    <button className="border border-gray-300 rounded-md p-2 hover:cursor-pointer" onClick={onClick}>
+    <button className={`border border-gray-300 rounded-md p-2 hover:cursor-pointer ${className}`} onClick={onClick}>
       {children}
     </button>
   );
