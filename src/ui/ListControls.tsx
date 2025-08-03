@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppStore } from '@/state/appStore';
+import Button from './Button';
 
 export default function ListControls() {
   const { pageNumber, setPageNumber } = useAppStore();
@@ -15,17 +16,9 @@ export default function ListControls() {
 
   return (
     <div className="flex flex-row gap-4 items-center justify-center">
-      <button
-        className="border border-gray-300 rounded-md p-2 hover:cursor-pointer"
-        onClick={() => handlePageChange(pageNumber - 1)}>
-        Previous
-      </button>
+      <Button onClick={() => handlePageChange(pageNumber - 1)}>Previous</Button>
       <span>Current Page: {pageNumber + 1}</span>
-      <button
-        className="border border-gray-300 rounded-md p-2 hover:cursor-pointer"
-        onClick={() => handlePageChange(pageNumber + 1)}>
-        Next
-      </button>
+      <Button onClick={() => handlePageChange(pageNumber + 1)}>Next</Button>
     </div>
   );
 }

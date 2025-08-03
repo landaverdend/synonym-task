@@ -1,11 +1,12 @@
 import Dexie, { type EntityTable } from 'dexie';
-import { User } from './definitions';
+import { SortBy, User } from './definitions';
 
 const MAX_CACHED_USERS = 1000;
 
 type UserCacheDB = Dexie & {
   users: EntityTable<User, 'login'>;
 };
+
 // Singleton wrapper for user cache/db actions
 export class UserCache {
   private db: UserCacheDB;
@@ -18,7 +19,7 @@ export class UserCache {
     };
 
     this.db.version(1).stores({
-      users: 'login.uuid, email, name.first, name.last, location.country, nat, fetchTime, isFavorited',
+      users: 'login.uuid, email, fullName, location.country, nat, fetchTime, isFavorited',
     });
   }
 
@@ -40,6 +41,7 @@ export class UserCache {
 
       const cachedUsers = users.map((user) => ({
         ...user,
+        fullName: `${user.name.first} ${user.name.last}`,
         fetchTime: new Date(),
         isFavorited: false,
       }));
@@ -85,5 +87,14 @@ export class UserCache {
 
   public getCacheSize() {
     return this.db.users.count();
+  }
+
+  public async searchUsers(searchTerm: string, sortBy: SortBy) {
+    const users = await this.db.users
+      .where('fullName')
+      .startsWithAnyOfIgnoreCase(searchTerm)
+      .sortBy(sortBy ?? 'fullName');
+
+    return users;
   }
 }

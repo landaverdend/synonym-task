@@ -5,6 +5,7 @@ export interface User {
   isFavorited?: boolean;
 
   gender: string;
+  fullName: string; // Not included in the API, but needed for comprehensive search
   name: {
     title: string;
     first: string;
@@ -59,3 +60,5 @@ export interface User {
   };
   nat: string;
 }
+
+export type SortBy = 'name' | 'country' | 'favorite' | null;

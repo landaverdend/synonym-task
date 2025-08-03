@@ -63,6 +63,7 @@ export const useUserApi = () => {
 
     throw new Error('Reached max retries');
   };
+
   const fetchFromCache = async () => {
     const users = await cache.getUsers(pageNumber, DEFAULT_PAGE_SIZE);
     return users;

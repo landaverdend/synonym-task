@@ -7,7 +7,9 @@ type ButtonProps = {
 };
 export default function Button({ children, onClick, className }: ButtonProps) {
   return (
-    <button className={`border border-gray-300 rounded-md p-2 hover:cursor-pointer ${className}`} onClick={onClick}>
+    <button
+      className={`border border-gray-300 rounded-md p-2 hover:cursor-pointer hover:bg-gray-500 ${className}`}
+      onClick={onClick}>
       {children}
     </button>
   );
